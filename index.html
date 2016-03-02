@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="Viewport" content="initial-scale=1.0, user-scalable=no" /> <!-- Controlar la posició als navegados movils -->
+    <meta name="Keywords" content= "Visor, SIG, GIS, Web, ODG, Deute, Debt">
+    <meta name="Author" content= "Marc Ibars Farró">
+
+    <title> Visor ODG </title>
+
+     <!--[if lt IE 9]><script src="js/excanvas.min.js"></script><![endif]-->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>    
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
+    <script src="libs/js/map.js"></script>
+    <script src="libs/js/easy-button.js"></script>
+    <script src="libs/js/Control.Loading.js"></script> 
+    <script src="libs/js/leaflet-sidebar.js"></script>    
+    <script src="libs/js/jquery.introLoader.pack.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="http://highcharts.github.io/export-csv/export-csv.js"></script>
+    <script src="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js"></script> 
+    <script src="libs/js/candlestick.min.js"></script>    
+        
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"> 
+    <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="libs/css/easy-button.css" />
+    <link rel="stylesheet" href="libs/css/Control.Loading.css" /> 
+    <link rel="stylesheet" href="libs/css/leaflet-sidebar.css" /> 
+    <link rel="stylesheet" href="libs/css/introLoader.min.css" />
+    <link rel="stylesheet" href="libs/css/candlestick.min.css" />
+    <link rel="stylesheet" href="libs/css/style.css" />
+
+  </head>
+
+  <body onload="init()">
+    
+    <div id="element" class="introLoading"></div>
+
+    <div id="sidebar" class="sidebar collapsed">
+
+        <!-- Nav tabs -->
+        <div class="sidebar-tabs">
+
+            <ul role="tablist">
+                <li><a href="#home" role="tab"><i class="fa fa-bar-chart fa-lg"></i></a></li>
+                <li><a href="#profile" role="tab"><i class="fa fa-question fa-lg"></i></a></li>
+                
+            </ul>
+
+            <ul role="tablist">
+                <li><a href="#messages" role="tab"><i class="fa fa-info fa-lg"></i></a></li>
+                <li><a href="#settings" role="tab"><i class="fa fa-envelope fa-lg"></i></a></li>
+            </ul>
+        </div>
+
+    <!-- Tab panes CONTENT -->
+        <div class="sidebar-content">
+
+            <div class="sidebar-pane" id="home">
+
+                <h1 class="sidebar-header">Chart Information<div class="sidebar-close"><i class="fa fa-caret-left"></i></div></h1>       
+                                                            
+                    <div id="container2" style="min-width: 380px; height: 380px; margin: 0 auto"></div>  
+
+            </div>
+
+            <div class="sidebar-pane" id="profile">
+
+                <h1 class="sidebar-header">About the indicators<div class="sidebar-close"><i class="fa fa-caret-left"></i></div></h1>
+
+                    <div class="indicators" id="indicators">
+                        
+                        <h4> Right side Info-Panel </h4>
+
+                            <h5><i> World Development Indicators (WDI) </h5></i>
+                                    
+                                <b>Income level > </b> Show the income category of a particular country (Low, Lower-middle, Upper middle, High).<br>
+
+                                <b>Lending Type  ></b>is the classification according the type of lending, beign:
+                                
+                                    <ul><b>IDA > International Development Association </b>is the part of the World Bank that helps the world's poorest countries. Established in 1960, aims to reduce poverty by providing loans and grants for programs that boost economic growth, reduce inequalities, and improve people's living conditions. </ul>
+
+                                    <ul><b>IBRD > International Bank for Reconstruction and Development </b> was established to funcition as a self-sustaining business and provides loans and advide to middle-income and credit-worthy poor countries.</ul>
+
+                                    <ul><b>Blend > </b> IDA-eligible but also creditworthy for some IBRD borrowing.</ul>
+
+                                <b>GDP > Gross Domestic Product </b>is a monetary measure of the value of all final goods and services produced in a period of time (quarterly or yearly). GDP estimates are commonly used to determine the economic performance and standard of living of a whole country or region, and to make international comparisons.
+                                        GDP per capita is the Gross Domestic Product divided by midyear population. <br>
+
+                                <b>GEE > Government Expenditure on Education.</b> (below) <br>
+
+                                <b>Net Oficial Development Assistance and Official Aid received</b> consists of disbursements of loans made on concessional terms (net of repayments of principal) and grants by official agencies of the members of the Development Assistance Committee (DAC), by multilateral institutions, and by non-DAC countries to promote economic development and welfare in countries and territories in the DAC list of ODA recipients. <br>
+                                    
+                                <br>*null means no value found.
+
+                                <hr>
+                        
+                        <h4> Sidebar </h4>      
+
+                            <h5><i> Debt Indicators </h5></i>
+
+                                <b> Central Governement Debt (CGD) > </b> Debt is the entire stock of direct government fixed-term contractual obligations to others outstanding on a particular date. It includes domestic and foreign liabilities such as currency and money deposits, securities other than shares, and loans. It is the gross amount of government liabilities reduced by the amount of equity and financial derivatives held by the government. Because debt is a stock rather than a flow, it is measured as of a given date, usually the last day of the fiscal year. <br>
+
+                                Total general (local, regional and central) <b>Government Expenditure on Education (GEE) </b> (current, capital, and transfers), expressed as a percentage of GDP. It includes expenditure funded by transfers from international sources to government. Divide total government expenditure for a given level of education (ex. primary, secondary, or all levels combined) by the GDP, and multiply by 100. A higher percentage of GDP spent on education shows a higher government priority for education, but also a higher capacity of the government to raise revenues for public spending, in relation to the size of the country's economy. When interpreting this indicator however, one should keep in mind in some countries, the private sector and/or households may fund a higher proportion of total funding for education, thus making government expenditure appear lower than in other countries.   <br>
+
+                                <b> Health Expenditure (HE) > </b> Total health expenditure is the sum of public and private health expenditure. It covers the provision of health services (preventive and curative), family planning activities, nutrition activities, and emergency aid designated for health but does not include provision of water and sanitation. <br>
+                               
+                        <br>                        
+                        The Data Source is from: <a href= "http://data.worldbank.org/"style="color:#0074d9"> World Bank Data </a>                
+
+                    </div>
+            </div>
+
+            <div class="sidebar-pane" id="messages">
+
+                <h1 class="sidebar-header">About DebtHub and ODG<div class="sidebar-close"><i class="fa fa-caret-left"></i></div></h1>
+
+                    <div class="odg" id="odg"> 
+
+                        <p align="justify"> <b>DebtHub</b> is a web app developed by the department of Critical Mapping with the cooperation of the Debt department in ODG organization. The aim of the project is to provide a tool to consult and visualize debt data pulled out from the World Bank databases repositories, focusing to get a better understanding of the debt situation of the world economies. <br>
+                        By hoovering the mouse around, the countries get highlighted and the info panel (top-right side) updated with background information and  World Developement Indicators.
+                        By clicking on a country, the chart updates with the Central Governement Debt, the Government Expenditure on Education and the Health Expenditure (all being a % of the GDP). The series of data can be checked and unchecked and ca be only displayed the indicators desired. Plus, the data can be exported as a chart image (png, pdf, jpeg, svg) or the raw data as a table (csv, xls).
+                        </p>
+
+                        <p align="justify">The <b><i>Observatori del Deute en la Globalització (ODG)</b></i> (Debt Observatory in Globalization) is a research center formed by a multidisciplinary team whose goal is to generate a structural change in the global relations of unequal exchange, grabbing and dispossession. We act in solidarity with the people of the Global South directly affected, working together as part of the same struggle against the current capitalist "development" model which impoverishes us. <br>
+
+                        Our work is integrated in social movements for global social-environmental justice (in Catalonia, Spain, Europe and the rest of the world), providing tools for critical analysis and systematization that can nurture civil society campaigns, creating initiatives to pressure governments’ and institutions’ extraterritoriality (actions beyond the state’s boundaries), seeking a transformational change and moving towards real coherence between the different public policies and the activities of the private / transnational sector with the rights of the People. Also, we try to stimulate informed discussion and strategic thinking in financial, economic, social and environmental terms that will accompany the creation of actions, campaigns, networks and alliances between the different organizations.
+                        </p>
+
+                    </div>
+
+            </div>
+
+            <div class="sidebar-pane" id="settings">
+
+                <h1 class="sidebar-header">Contact<div class="sidebar-close"><i class="fa fa-caret-left"></i></div></h1>
+
+                    <form class="form" action="mail.php" method="POST" >               
+                        <input type="text" name="name"placeholder="Your Name"> 
+                        <input type="text" name="email"placeholder="Your Email">
+                        <input type="text" name="website"placeholder="Your Site">
+                        <textarea name="message" rows="6" cols="25"placeholder="Type your text here..."></textarea>
+                        
+                        <input id="send" type="submit" value="Submit">
+                        <input id="reset" type="reset" value="Reset">
+                    </form>
+
+                <div class="social" id="social">
+                    <ul>
+                        <a href="https://www.facebook.com/odg.cat" tittle= "facebook" target="_blank"><i class="fa fa-facebook fa-2x"></i></a>        
+                        <a href="https://twitter.com/twitt_odg" tittle= "twitter" target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
+                        <a href="https://www.youtube.com/user/ODGvideo" tittle= "youtube" target="_blank"><i class="fa fa-youtube fa-2x"></i></a>
+                        <a href="mailto:observatori@odg.cat" tittle= "mail" target="_blank"><i class="fa fa-envelope-o fa-2x "></i></a>
+                    </ul>
+              </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <div id="map"class="sidebar-map"></div>
+
+    </div>
+    
+  </body>
+</html>
