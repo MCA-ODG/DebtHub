@@ -1,0 +1,53 @@
+    body {
+      margin:0;
+    }
+
+    #map {
+      position:absolute;
+      height:100%;
+      width:100%;
+    }
+
+    #info{
+      position: absolute;
+      top: 10px;
+      left: 45px;
+      border-radius: 10px;
+      display: block;
+      height: 600px;
+      width: 350px;
+      background-color: white;
+      opacity: 0.5;
+    }
+
+    .button {
+      color: white;
+      font-family:sans-serif;
+      background: black;
+      border-radius: 10px;
+      position: absolute;
+      top: 400px;
+      left: 20px;
+    }
+
+    #chart {
+      width:300px;
+      height:200px;
+      top: 15px;
+      left: 50px;
+    }
+
+    #chart2 {
+      width:300px;
+      height:200px;
+      top: 250px;
+      left: 50px;
+    }
+
+    #chart > div.legend > table {     
+      font-family: Courier;
+    }
+
+    div.legend {
+      font-size:12px;
+    }
